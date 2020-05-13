@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::apiResource('/items', 'ItemController');
+Route::apiResource('/admin/items', 'admin\ItemsController');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
