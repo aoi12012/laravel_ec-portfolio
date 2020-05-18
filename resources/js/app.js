@@ -7,7 +7,7 @@ import router from './router';
 import App from './components/App';
 
 Vue.filter('addComma', function(val) {
-  return val.toLocaleString();
+  return val?.toLocaleString();
 })
 
 

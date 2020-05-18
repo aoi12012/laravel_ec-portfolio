@@ -42,7 +42,7 @@
     methods: {
       init() {
         const profile = JSON.parse(localStorage.getItem('profile'));
-        if (profile.token.access_token && profile.profile.name) {
+        if (profile) {
           this.login_user = profile.profile.name;
         }
       },

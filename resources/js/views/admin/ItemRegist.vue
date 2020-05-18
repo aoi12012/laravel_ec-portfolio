@@ -32,13 +32,13 @@
       <div class="row">
         <div class="col-4">
           <div class="form-group">
-            <label for="price">販売価格</label>
-            <input type="text" class="form-control" id="price">
+            <label :class="{'is-invalid': errors.base_price}">販売価格</label><label class="invalid-feedback d-inline ml-1" v-if="errors.base_price">※入力必須です。</label>
+            <input v-model="form.base_price" type="text" class="form-control" v-bind:class="{ 'is-invalid': errors.base_price}">
           </div>
         </div>
-        <div class="col-4">
-          <button class="btn" @click="regist">登録</button>
-        </div>
+      </div>
+      <div>
+        <button class="btn btn-primary float-right" @click="regist">登録</button>
       </div>
     </div>
   </div>
@@ -52,11 +52,13 @@
           name: '',
           name_kana: '',
           description: '',
+          base_price: '',
           image: ''
         },
         errors: {
           name: '',
           name_kana: '',
+          base_price: '',
           image: ''
         },
         data: {
@@ -85,22 +87,27 @@
         formData.append('name', this.form.name);
         formData.append('name_kana', this.form.name_kana);
         formData.append('description', this.form.description);
+        formData.append('base_price', this.form.base_price);
         formData.append('image', this.form.image);
         console.log(formData);
         axios.post('/api/admin/items', formData)
           .then(response => {
+            alert('登録が完了しました。');
+            window.location.href = '/admin/items'
             console.log(response);
           })
           .catch(err => {
             let errors = err.response.data.errors;
             this.errors.name = ( errors.name ? errors.name[0] : '');
             this.errors.name_kana = ( errors.name_kana ? errors.name_kana[0] : '');
+            this.errors.base_price = ( errors.base_price ? errors.base_price[0] : '');
           });
       },
       init() {
         this.errors = {
           name: '',
           name_kana: '',
+          base_price: '',
           image: ''
         }
       }

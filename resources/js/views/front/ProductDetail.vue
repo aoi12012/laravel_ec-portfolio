@@ -16,7 +16,10 @@
         </div>
         <hr>
         <div>価格: &yen {{ item.base_price | addComma }}</div>
-        <div>{{ item.description }}</div>
+        <div>
+          <div>商品説明</div>
+          <div style="white-space:pre-wrap; word-wrap:break-word;">{{ item.description }}</div>
+        </div>
       </div>
       <div class="col-3">
         <div class="border">
@@ -63,7 +66,7 @@
     components: {
       Icon
     },
-    created: function() {
+    mounted: function() {
       this.getItem();
     },
     methods: {

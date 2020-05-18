@@ -32,13 +32,13 @@
       <div class="row">
         <div class="col-4">
           <div class="form-group">
-            <label for="price">販売価格</label>
-            <input type="text" class="form-control" id="price">
+            <label :class="{'is-invalid': errors.base_price}">販売価格</label><label class="invalid-feedback d-inline ml-1" v-if="errors.base_price">※入力必須です。</label>
+            <input v-model="form.base_price" type="text" class="form-control" v-bind:class="{ 'is-invalid': errors.base_price}">
           </div>
         </div>
-        <div class="col-4">
-          <button class="btn" @click="regist">登録</button>
-        </div>
+      </div>
+      <div>
+        <button class="btn btn-primary float-right" @click="update">更新</button>
       </div>
     </div>
   </div>
@@ -52,11 +52,13 @@
           name: '',
           name_kana: '',
           description: '',
+          base_price: '',
           image: ''
         },
         errors: {
           name: '',
           name_kana: '',
+          base_price: '',
           image: ''
         },
         data: {
@@ -94,7 +96,7 @@
             this.message = err;
           });
       },
-      regist() {
+      update() {
         this.init();
         let config = {
           headers: {}
@@ -103,10 +105,12 @@
         formData.append('name', this.form.name);
         formData.append('name_kana', this.form.name_kana);
         formData.append('description', this.form.description);
+        formData.append('base_price', this.form.base_price);
         config.headers['X-HTTP-Method-Override'] = 'PUT';
         axios.post(`/api/admin/items/${this.$route.params.id}`, formData, config)
           .then(response => {
-            console.log(response);
+            alert('変更が完了しました。');
+            window.location.href = '/admin/items'
           })
           .catch(err => {
             let errors = err.response.data.errors;

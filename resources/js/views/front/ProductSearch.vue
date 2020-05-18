@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-3">
     <div class="d-flex">
       <Item v-for="(item, index) in items" :key=index :item=item />
     </div>
@@ -21,6 +21,7 @@
     },
     methods: {
       getItem() {
+        console.log('aaaa');
         axios
           .get(`/api/search/${this.$route.params.param}`)
           .then(response => {
