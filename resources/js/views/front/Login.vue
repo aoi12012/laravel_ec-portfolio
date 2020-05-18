@@ -1,32 +1,32 @@
 <template>
-  <div>
+  <div class="mt-4">
     <div class="container">
       <div class="row">
-        <div class="col-8 col-offset-2">
-          <div class="panel panel-default">
-            <div class="panel-heading">Login</div>
+        <h1>ログイン</h1>
+      </div>
+      <div class="row">
+        <div class="col-6">
+            <router-link class="btn d-block mx-auto" style="width: 100px; background: #f6993f; margin-top: 100px" :to="{name: 'userRegist'}">新規登録</router-link>
+        </div>
+        <div class="col-6 border-left">
+          <div class="panel panel-default mx-auto">
+            <div class="panel-heading"></div>
             <div class="panel-body">
-              <label for="email" class="col-4 control-label">E-Mail Address</label>
+              <label for="email" class="control-label">E-Mail Address</label>
               <div class="alert alert-denger" role="alert" v-if="showAlert">
                 {{ alertMessage }}
               </div>
               <div class="form-group">
-                <div class="col-6">
                   <input id="email" type="email" class="form-control"
                     v-model="email" required>
-                </div>
               </div>
               <label for="password" class="col-4 control-label">Password</label>
               <div class="form-group">
-                <div class="col-6">
                   <input id="password" type="password" class="form-control"
                     v-model="password" required>
-                </div>
               </div>
               <div class="form-group">
-                <div class="col-8 col-offset-4">
                   <button @click="login" class="btn btn-primary">Login</button>
-                </div>
               </div>
             </div>
           </div>

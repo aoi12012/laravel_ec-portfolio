@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Index from './views/Index.vue';
 import Login from './views/front/Login.vue';
+import UserRegist from './views/front/UserRegist.vue';
 import ProductList from './views/front/ProductList.vue';
 import ProductSearch from './views/front/ProductSearch.vue';
 import ProductDetail from './views/front/ProductDetail.vue';
@@ -31,6 +32,11 @@ export default new Router({
           path: '/login',
           name: 'login',
           component: Login
+        },
+        {
+          path: '/user/regist',
+          name: 'userRegist',
+          component: UserRegist
         },
         {
           path: '/',

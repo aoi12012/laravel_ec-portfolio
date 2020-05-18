@@ -28,6 +28,7 @@ class ItemApiRequest extends FormRequest
         return [
             'name' => 'required',
             'name_kana' => 'required',
+            'base_price' => 'required',
             #'image' => 'required'
         ];
     }

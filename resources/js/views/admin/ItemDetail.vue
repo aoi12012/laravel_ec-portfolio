@@ -71,16 +71,18 @@
           });
       },
       deleteItem() {
-        axios
-          .delete(`/api/admin/items/${this.$route.params.id}`)
-          .then(response => {
-            console.log(response);
-            window.location.href = "/admin/items";
-          })
-          .catch(err => {
-            console.log(err);
-            this.message = err;
-          });
+        if(confirm('商品を削除します。')){
+          axios
+            .delete(`/api/admin/items/${this.$route.params.id}`)
+            .then(response => {
+              console.log(response);
+              window.location.href = "/admin/items";
+            })
+            .catch(err => {
+              console.log(err);
+              this.message = err;
+            });
+        }
       },
     }
   }

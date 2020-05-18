@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware'], function() {
   Route::post('/login', 'AuthenticateController@login');
+  Route::post('/user/regist', 'UserRegistController@store');
 
   Route::apiResource('/items', 'ItemController');
   Route::get('/search/{search}', 'SearchController@productSearch');

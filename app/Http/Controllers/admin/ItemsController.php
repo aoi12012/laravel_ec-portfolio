@@ -50,8 +50,6 @@ class ItemsController extends Controller
 
         $item_id = Sequence::getNewItemId();
 
-        $data['base_price'] = 10000;
-
         $item = new Item;
         $item->fill($data);
         $item->item_id = $item_id;
