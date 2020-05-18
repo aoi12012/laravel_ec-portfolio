@@ -4,8 +4,11 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\admin\ItemApiRequest;
 use App\Models\Item;
-use App\Models\ItemDetail;
+use App\Models\Post;
+use Storage;
+use Sequence;
 use DB;
 
 class ItemsController extends Controller
@@ -25,7 +28,7 @@ class ItemsController extends Controller
                 'item_id' => $item->item_id,
                 'jancode13' => $item->jancode13,
                 'jancode8' => $item->jancode8,
-                'name' => $item->detail->name
+                'name' => $item->name
             ];
         }
         return $data;
@@ -37,10 +40,23 @@ class ItemsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ItemApiRequest $request)
     {
+        $post = new Post;
         $data = $request->all();
-        $data['file'] = $request->file('image');
+        $path = Storage::disk('s3')->putFile('itemImages', $request->file('image'), 'public');
+        $post->image_path = Storage::disk('s3')->url($path);
+        $post->save();
+
+        $item_id = Sequence::getNewItemId();
+
+        $data['base_price'] = 10000;
+
+        $item = new Item;
+        $item->fill($data);
+        $item->item_id = $item_id;
+        $item->thumbnail = $post->id;
+        $item->save();
         return $data;
     }
 
@@ -53,7 +69,7 @@ class ItemsController extends Controller
     public function show($id)
     {
         $item = Item::where('item_id', $id)->first();
-        $item['detail'] = $item->detail;
+        $item['thumbnail'] = $item->post->image_path;
         return $item;
     }
 
@@ -64,9 +80,12 @@ class ItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ItemApiRequest $request, $id)
     {
-        //
+        $data = $request->all();
+        $item = new Item;
+        $item->where('item_id', $id)->update($data);
+        return $data;
     }
 
     /**
@@ -77,6 +96,7 @@ class ItemsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = new Item;
+        $item->where('item_id', $id)->delete();
     }
 }

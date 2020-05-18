@@ -1,14 +1,13 @@
 <template>
-  <div>
-    <h1>Home Page</h1>
-    <div class="d-flex">
+  <div class="mt-3">
+    <div class="d-flex flex-wrap">
       <Item v-for="(item, index) in items" :key=index :item=item />
     </div>
   </div>
 </template>
 
 <script>
-  import Item from '../components/Home/Item.vue';
+  import Item from '../../components/Home/Item.vue';
 
   export default {
     data() {
@@ -29,6 +28,7 @@
             this.items = response.data;
           })
           .catch(err => {
+            console.log(err);
             this.message = err;
           });
       }

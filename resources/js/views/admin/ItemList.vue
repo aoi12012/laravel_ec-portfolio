@@ -1,8 +1,12 @@
 <template>
   <div>
-    <h1>商品管理</h1>
+    <div class="d-flex justify-content-between flex-nowrap border-bottom mt-4 mb-2">
+      <h1>商品管理</h1>
+      <div class="btn-toolbar">
+        <router-link :to="{ name: 'itemRegist'}" class="btn btn-secondary float-right mb-2">商品登録</router-link>
+      </div>
+    </div>
     <div>
-      <router-link :to="{ name: 'itemRegist'}" class="btn btn-secondary float-right mb-2" exact>商品登録</router-link>
       <table class="table table-hover">
         <thead>
           <tr>

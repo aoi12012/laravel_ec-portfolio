@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Item;
 
 class ItemController extends Controller
 {
@@ -13,21 +14,18 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $list = [
-            [
-                'item_id' => 'xxxxxxxx',
-                'name' => '日本酒'
-            ],
-            [
-                'item_id' => 'yyyyyyyy',
-                'name' => 'ワイン'
-            ],
-            [
-                'item_id' => 'zzzzzzzz',
-                'name' => 'ブランデー'
-            ]
-        ];
-        return $list;
+        $data = [];
+        $items = Item::all();
+        foreach ($items as $item)
+        {
+            $data[] = [
+                'item_id' => $item->item_id,
+                'name' => $item->name,
+                'price' => $item->base_price,
+                'thumbnail' => $item->post->image_path
+            ];
+        }
+        return $data;
     }
 
     /**
@@ -49,7 +47,9 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = Item::where('item_id', $id)->first();
+        $item['thumbnail'] = $item->post->image_path;
+        return $item;
     }
 
     /**

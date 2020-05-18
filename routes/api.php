@@ -13,7 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::apiResource('/items', 'ItemController');
+Route::group(['middleware'], function() {
+  Route::post('/login', 'AuthenticateController@login');
+
+  Route::apiResource('/items', 'ItemController');
+  Route::get('/search/{search}', 'SearchController@productSearch');
+});
+Route::group(['middleware' => 'auth:api'], function() {
+  Route::apiResource('/test/items', 'ItemController');
+  Route::get('/logout', 'AuthenticateController@logout');
+});
+
+
 Route::apiResource('/admin/items', 'admin\ItemsController');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

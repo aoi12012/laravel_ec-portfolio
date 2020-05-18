@@ -64,6 +64,9 @@
         }
       };
     },
+    created: function() {
+      this.getItem();
+    },
     methods: {
       setImage(e) {
         e.preventDefault();
@@ -79,15 +82,29 @@
           e.target.type = 'file';
         }
       },
+      getItem() {
+        axios
+          .get(`/api/admin/items/${this.$route.params.id}`)
+          .then(response => {
+            this.form = response.data;
+            this.data.image = this.form.thumbnail;
+            console.log(this.item);
+          })
+          .catch(err => {
+            this.message = err;
+          });
+      },
       regist() {
         this.init();
+        let config = {
+          headers: {}
+        };
         const formData = new FormData();
         formData.append('name', this.form.name);
         formData.append('name_kana', this.form.name_kana);
         formData.append('description', this.form.description);
-        formData.append('image', this.form.image);
-        console.log(formData);
-        axios.post('/api/admin/items', formData)
+        config.headers['X-HTTP-Method-Override'] = 'PUT';
+        axios.post(`/api/admin/items/${this.$route.params.id}`, formData, config)
           .then(response => {
             console.log(response);
           })
